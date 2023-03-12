@@ -1,0 +1,24 @@
+{
+  "name": "arknights-hook-main-project",
+  "version": "1.0.0",
+  "description": "Arknights frida hook project",
+  "private": true,
+  "main": "agent/main.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "frida-compile agent/main.ts -o _arknights.js -c",
+    "build3": "esbuild --bundle --outfile=_arknights.js --minify agent/main.ts",
+    "build2": "esbuild --bundle --outfile=_arknights.js agent/main.ts",
+    "watch": "frida-compile agent/main.ts -o _arknights.js -w",
+    "run": "frida -Uf com.hypergryph.arknights.bilibili -l D:/Frida/Arknights/MainProject/_arknights.js"
+  },
+  "devDependencies": {
+    "@types/frida-gum": "^18.1.0",
+    "@types/node": "^18.0.6",
+    "frida-compile": "^10.2.5",
+    "frida-il2cpp-bridge": "^0.7.13"
+  },
+  "dependencies": {
+    "esbuild": "^0.17.11"
+  }
+}
