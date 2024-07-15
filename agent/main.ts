@@ -518,6 +518,30 @@ namespace Il2CppHook {
         }
     }
 
+    function SSLHook() {
+
+        function javaSSLHook() {
+            Java.perform(function () {
+                const NetworkService = Java.use("com.hypergryph.platform.hgsdk.common.http.NetworkService");
+                NetworkService["checkIfUrlMatch"].implementation = function (str: string) {
+                    return false;
+                };
+            })
+        }
+    
+        function nativeSSLHook() {
+            Il2Cpp.perform(() => {
+                const CheckIfToUseCustomCertVerifyer = Il2Cpp.domain.assembly("Torappu.Common").image.class("Torappu.Network.Certificate.CertificateHandlerFactory").method("CheckIfToUseCustomCertVerifyer");
+                CheckIfToUseCustomCertVerifyer.implementation = function () {
+                    return false;
+                };
+            });
+        }
+    
+        javaSSLHook();
+        nativeSSLHook();
+    }
+
     function LogHook(): void {
         const UnityEngine_Application = UnityEngineCoreModule.class('UnityEngine.Application');
         const CallLogCallback = UnityEngine_Application.method('CallLogCallback');
